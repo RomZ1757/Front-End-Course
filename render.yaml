@@ -1,0 +1,18 @@
+# The configuration that deploys this project on render.com as a static site.
+# The static JSON file that holds the currency exchange rates (rates.json) is
+# deployed together with the application, and therefore the application
+# retrieves the rates from a server that is connected to the web.
+services:
+  - type: web
+    name: cost-manager
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    headers:
+      - path: /rates.json
+        name: Access-Control-Allow-Origin
+        value: "*"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
